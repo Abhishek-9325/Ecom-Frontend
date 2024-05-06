@@ -59,20 +59,21 @@ export default function ProductList() {
     },
   ];
 
-  const handleFilterChange = (e, sectionId, option) => {
-    const newFilter = { ...filter };
-    if (e.target.checked) {
-      setPage(1);
-      if (newFilter[sectionId]) {
-        newFilter[sectionId].push(option.value);
-      } else {
-        newFilter[sectionId] = [option.value];
-      }
-    } else {
-      newFilter[sectionId] = newFilter[sectionId].filter(
-        (val) => val !== option.value
-      );
-    }
+  const handleFilterChange = (e) => {
+    const newFilter = {};
+    setPage(1);
+    newFilter[e.target.name] = e.target.value;
+    console.log("Filter", newFilter);
+    // if (e.target.value) {
+    //   if (newFilter[e.target.name]) {
+    //   } else {
+    //     newFilter[e.target.name] = [e.target.value];
+    //   }
+    // } else {
+    //   newFilter[e.target.name] = newFilter.filter(
+    //     (val) => val !== e.targe.value
+    //   );
+    // }
     setFilter(newFilter);
     // console.log("Filter", newFilter);
     // let queryString = "";
@@ -372,29 +373,22 @@ function DesktopFilter({ handleFilterChange, filters }) {
                 </Disclosure.Button>
               </h3>
               <Disclosure.Panel className="pt-6">
-                <div className="space-y-4">
+                <select
+                  className="space-y-4"
+                  onChange={(e) => handleFilterChange(e)}
+                  name={section.id}
+                >
                   {section.options.map((option, optionIdx) => (
-                    <div key={option.value} className="flex items-center">
-                      <input
-                        id={`filter-${section.id}-${optionIdx}`}
-                        name={`${section.id}[]`}
-                        defaultValue={option.value}
-                        type="checkbox"
-                        defaultChecked={option.checked}
-                        onChange={(e) =>
-                          handleFilterChange(e, section.id, option)
-                        }
-                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                      />
-                      <label
-                        htmlFor={`filter-${section.id}-${optionIdx}`}
-                        className="ml-3 text-sm text-gray-600"
-                      >
-                        {option.label}
-                      </label>
-                    </div>
+                    <option
+                      key={option.value}
+                      className="flex items-center"
+                      id={`filter-${section.id}-${optionIdx}`}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
                   ))}
-                </div>
+                </select>
               </Disclosure.Panel>
             </>
           )}

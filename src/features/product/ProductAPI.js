@@ -34,11 +34,7 @@ export function fetchAllFilterProducts(filter, sort, pagination, admin) {
   // filter = {"category":["smartphone","laptops"]}
   let queryString = "";
   for (let key in filter) {
-    const categoryValues = filter[key];
-    if (categoryValues.length) {
-      const lastCategory = categoryValues[categoryValues.length - 1];
-      queryString += `${key}=${lastCategory}&`;
-    }
+    queryString += `${key}=${filter[key]}&`;
   }
   for (let key in sort) {
     queryString += `${key}=${sort[key]}&`;
